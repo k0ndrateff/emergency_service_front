@@ -4,6 +4,7 @@ import { queryClient } from '@/api/queryClient.ts'
 import { getAllOperatorsQueryOptions } from '@/api/operators/operatorsQueries.ts'
 import {useSuspenseQuery} from "@tanstack/react-query";
 import {SelectOperatorButton} from "@/features/operator/SelectOperatorButton.tsx";
+import {SirenDecoration} from "@/features/operator/SirenDecoration.tsx";
 
 export const Route = createFileRoute('/login')({
   loader: () => queryClient.ensureQueryData(getAllOperatorsQueryOptions),
@@ -14,7 +15,7 @@ function Login() {
   const { data: operators } = useSuspenseQuery(getAllOperatorsQueryOptions);
 
   return (
-    <div className="w-full min-h-dvh p-12 flex flex-col">
+    <div className="relative w-full min-h-dvh p-12 flex flex-col">
       <div className="flex flex-col gap-8 w-fit">
         <div className="flex items-end gap-4">
           <h1 className="text-6xl">Вход в систему</h1>
@@ -27,11 +28,13 @@ function Login() {
             <h2 className="font-bold small-caps">Выберите оператора</h2>
 
             {operators.map((operator) => (
-              <SelectOperatorButton operator={operator} />
+              <SelectOperatorButton key={operator.id} operator={operator} />
             ))}
           </section>
         </div>
       </div>
+
+      <SirenDecoration />
     </div>
   )
 }
