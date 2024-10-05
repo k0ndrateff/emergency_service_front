@@ -15,6 +15,9 @@ export const Route = createFileRoute('/login')({
 function Login() {
   const { data: operators } = useSuspenseQuery(getAllOperatorsQueryOptions);
 
+  const operatorsExist = operators.length > 0;
+  const createOperatorTitle = operatorsExist ? 'Или войдите под своим именем' : 'Войдите под своим именем';
+
   return (
     <div className="relative w-full min-h-dvh p-12 flex flex-col">
       <div className="flex flex-col gap-8 w-fit">
@@ -25,18 +28,20 @@ function Login() {
         </div>
 
         <div className="flex flex-col gap-24">
+          {operatorsExist && (
+            <section className="flex flex-col gap-2">
+              <h2 className="font-bold small-caps">Выберите оператора</h2>
+
+              {operators.map((operator) => (
+                <SelectOperatorButton key={operator.id} operator={operator}/>
+              ))}
+            </section>
+          )}
+
           <section className="flex flex-col gap-2">
-            <h2 className="font-bold small-caps">Выберите оператора</h2>
+            <h2 className="font-bold small-caps">{createOperatorTitle}</h2>
 
-            {operators.map((operator) => (
-              <SelectOperatorButton key={operator.id} operator={operator}/>
-            ))}
-          </section>
-
-          <section className="flex flex-col gap-2">
-            <h2 className="font-bold small-caps">Или войдите под своим именем</h2>
-
-            <CreateOperatorForm />
+            <CreateOperatorForm/>
           </section>
         </div>
       </div>
