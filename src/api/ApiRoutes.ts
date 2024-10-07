@@ -1,3 +1,4 @@
 export const apiRoutes = {
-  operators: '/operators'
+  operators: '/operators',
+  operator: '/operators/'
 } as const;

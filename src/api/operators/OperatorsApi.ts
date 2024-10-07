@@ -15,6 +15,17 @@ class OperatorsApi {
     }
   };
 
+  getOne = async (id: number): Promise<Operator> => {
+    try {
+      const result = await baseApi.get(`${apiRoutes.operator}${id}`);
+
+      return result.data;
+    }
+    catch(error) {
+      throw new Error(`Failed to get operator ${id}: ${error}`);
+    }
+  };
+
   create = async (dto: CreateOperatorDto): Promise<Operator> => {
     try {
       const result = await baseApi.post(apiRoutes.operators, dto);

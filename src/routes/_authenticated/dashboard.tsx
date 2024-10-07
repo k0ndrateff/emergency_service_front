@@ -1,27 +1,17 @@
-import {createFileRoute, useNavigate} from '@tanstack/react-router'
-import {Button} from "@/lib/components/ui/button.tsx";
-import {useAuthContext} from "@/lib/context/AuthContext.ts";
+import {createFileRoute} from '@tanstack/react-router'
+import {MainMap} from "@/features/map/MainMap.tsx";
+import {Header} from "@/features/dashboard/Header.tsx";
 
 export const Route = createFileRoute('/_authenticated/dashboard')({
   component: Dashboard,
 });
 
 function Dashboard() {
-  const { logout } = useAuthContext();
-
-  const navigate = useNavigate();
-
-  const handleClick = () => {
-    logout();
-
-    navigate({ to: '/login' });
-  };
-
   return (
     <div>
-      Только для зарегистрированных!
+      <Header />
 
-      <Button onClick={handleClick}>Выйти</Button>
+      <MainMap />
     </div>
   );
 }
