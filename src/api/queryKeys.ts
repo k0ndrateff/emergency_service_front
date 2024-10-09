@@ -5,6 +5,10 @@ const keys = {
   },
   operatorsOne(id: number) {
     return [...this.operators, 'one', id];
+  },
+  incidents: ['incidents'],
+  incidentsActive() {
+    return [...this.incidents, 'active'];
   }
 } as const;
 
