@@ -6,3 +6,8 @@ export const useGetActiveIncidents = () => useQuery({
   queryKey: queryKeys.incidentsActive(),
   queryFn: incidentsApi.getActive
 });
+
+export const useGetPreviousIncidents = () => useQuery({
+  queryKey: queryKeys.incidentsPrevious(),
+  queryFn: incidentsApi.getPrevious
+});

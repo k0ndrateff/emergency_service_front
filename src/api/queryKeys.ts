@@ -9,6 +9,9 @@ const keys = {
   incidents: ['incidents'],
   incidentsActive() {
     return [...this.incidents, 'active'];
+  },
+  incidentsPrevious() {
+    return [...this.incidents, 'previous'];
   }
 } as const;
 
