@@ -1,10 +1,13 @@
-import mapboxgl, { Map as MapboxMap } from "mapbox-gl";
+import mapboxgl, {Map as MapboxMap, Marker} from "mapbox-gl";
 import { useEffect, useRef } from "react";
 import "mapbox-gl/dist/mapbox-gl.css";
+import {useGetCrewsGeoCoded} from "@/api/crew/crewQueries.ts";
 
 const MainMap = () => {
   const mapRef = useRef<MapboxMap>();
   const mapContainerRef = useRef<HTMLDivElement>(null);
+
+  const { data: crewsGeoCoded } = useGetCrewsGeoCoded();
 
   useEffect(() => {
     mapboxgl.accessToken = "pk.eyJ1IjoiazBuZHJhdGVmZiIsImEiOiJja2sycjJ2emkxM3MzMnZxc253ZGtveWI2In0.vV9nG1Cqb7OruzUmHKY0LQ";
@@ -19,6 +22,19 @@ const MainMap = () => {
       mapRef.current?.remove();
     };
   }, []);
+
+  useEffect(() => {
+    if (crewsGeoCoded && mapRef.current) {
+      crewsGeoCoded.map(crew => {
+        new Marker({
+          color: "#FF0000",
+          scale: 0.8,
+        })
+          .setLngLat([Number(crew.base_geo?.lon), Number(crew.base_geo?.lat)])
+          .addTo(mapRef.current as MapboxMap);
+      });
+    }
+  }, [crewsGeoCoded]);
 
   return (
     <div

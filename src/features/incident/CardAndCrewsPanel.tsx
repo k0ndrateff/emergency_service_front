@@ -1,6 +1,6 @@
 import {Tabs, TabsContent, TabsList, TabsTrigger} from "@/lib/components/ui/tabs.tsx";
-import {PreviousIncidentListTab} from "@/features/incident/PreviousIncidentListTab.tsx";
 import {IncidentCard} from "@/features/incident/IncidentCard.tsx";
+import {CrewList} from "@/features/crew/CrewList.tsx";
 
 const CardAndCrewsPanel = () => {
   return (
@@ -16,7 +16,7 @@ const CardAndCrewsPanel = () => {
         </TabsContent>
 
         <TabsContent value="crews" className="h-full">
-          <PreviousIncidentListTab />
+          <CrewList />
         </TabsContent>
       </Tabs>
     </div>

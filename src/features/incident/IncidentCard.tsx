@@ -1,5 +1,5 @@
 import {getRouteApi} from "@tanstack/react-router";
-import {useGetOneIncident} from "@/api/incidents/incidentsQueries.tsx";
+import {useGetOneIncident} from "@/api/incidents/incidentsQueries.ts";
 
 const route = getRouteApi('/_authenticated/dashboard');
 

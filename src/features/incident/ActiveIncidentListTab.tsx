@@ -1,4 +1,4 @@
-import {useGetActiveIncidents} from "@/api/incidents/incidentsQueries.tsx";
+import {useGetActiveIncidents} from "@/api/incidents/incidentsQueries.ts";
 import {IncidentBlock} from "@/features/incident/IncidentBlock.tsx";
 
 const ActiveIncidentListTab = () => {
@@ -13,7 +13,7 @@ const ActiveIncidentListTab = () => {
       )}
 
       {incidents?.map((incident) => (
-        <IncidentBlock incident={incident} />
+        <IncidentBlock key={incident.id} incident={incident} />
       ))}
     </div>
   );

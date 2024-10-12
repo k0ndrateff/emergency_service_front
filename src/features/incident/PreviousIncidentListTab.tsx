@@ -1,4 +1,4 @@
-import {useGetPreviousIncidents} from "@/api/incidents/incidentsQueries.tsx";
+import {useGetPreviousIncidents} from "@/api/incidents/incidentsQueries.ts";
 import {IncidentBlock} from "@/features/incident/IncidentBlock.tsx";
 
 const PreviousIncidentListTab = () => {

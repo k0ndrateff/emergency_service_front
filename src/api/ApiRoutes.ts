@@ -4,4 +4,6 @@ export const apiRoutes = {
   incidentsActive: '/incidents/active',
   incidentsPrevious: '/incidents/previous',
   incident: '/incidents/',
+  crews: '/crews',
+  crewsGeoCoded: '/crews/geo',
 } as const;
