@@ -11,3 +11,9 @@ export const useGetPreviousIncidents = () => useQuery({
   queryKey: queryKeys.incidentsPrevious(),
   queryFn: incidentsApi.getPrevious
 });
+
+export const useGetOneIncident = (id: number | undefined) => useQuery({
+  queryKey: queryKeys.incidentsOne(id),
+  queryFn: () => incidentsApi.getOne(id),
+  enabled: typeof id === "number"
+});

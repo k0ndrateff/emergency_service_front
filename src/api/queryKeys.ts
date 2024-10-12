@@ -12,6 +12,9 @@ const keys = {
   },
   incidentsPrevious() {
     return [...this.incidents, 'previous'];
+  },
+  incidentsOne(id: number | undefined) {
+    return [...this.incidents, 'one', id];
   }
 } as const;
 

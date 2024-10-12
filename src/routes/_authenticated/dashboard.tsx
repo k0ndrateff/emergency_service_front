@@ -2,9 +2,17 @@ import {createFileRoute} from '@tanstack/react-router'
 import {MainMap} from "@/features/map/MainMap.tsx";
 import {Header} from "@/features/dashboard/Header.tsx";
 import {IncidentList} from "@/features/incident/IncidentList.tsx";
+import {CardAndCrewsPanel} from "@/features/incident/CardAndCrewsPanel.tsx";
+
+interface SearchParams {
+  incident?: number;
+}
 
 export const Route = createFileRoute('/_authenticated/dashboard')({
   component: Dashboard,
+  validateSearch: (search: Record<string, unknown>): SearchParams => ({
+      incident: search.incident ? Number(search.incident) : undefined,
+    })
 });
 
 function Dashboard() {
@@ -15,6 +23,7 @@ function Dashboard() {
       <MainMap />
 
       <IncidentList />
+      <CardAndCrewsPanel />
     </div>
   );
 }

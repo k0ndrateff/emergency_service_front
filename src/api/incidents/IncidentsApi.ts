@@ -24,6 +24,21 @@ class IncidentsApi {
       throw new Error(`Failed to get previous incidents: ${error}`);
     }
   };
+
+  getOne = async (id: number | undefined): Promise<Incident | undefined> => {
+    if (id === undefined) {
+      return;
+    }
+
+    try {
+      const result = await baseApi.get(`${apiRoutes.incident}${id}`);
+
+      return result.data;
+    }
+    catch(error) {
+      throw new Error(`Failed to get incident ${id}: ${error}`);
+    }
+  };
 }
 
 export const incidentsApi = new IncidentsApi();
