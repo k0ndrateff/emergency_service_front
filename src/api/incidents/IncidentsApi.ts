@@ -39,6 +39,19 @@ class IncidentsApi {
       throw new Error(`Failed to get incident ${id}: ${error}`);
     }
   };
+
+  update = async (id: number | undefined, dto: Partial<Incident>): Promise<void> => {
+    if (id === undefined) {
+      return;
+    }
+
+    try {
+      await baseApi.patch(`${apiRoutes.incident}${id}`, dto);
+    }
+    catch(error) {
+      throw new Error(`Failed to update incident ${id}: ${error}`);
+    }
+  };
 }
 
 export const incidentsApi = new IncidentsApi();
