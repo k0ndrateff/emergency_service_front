@@ -13,7 +13,7 @@ const PreviousIncidentListTab = () => {
       )}
 
       {incidents?.map((incident) => (
-        <IncidentBlock incident={incident}/>
+        <IncidentBlock key={incident.id} incident={incident}/>
       ))}
     </div>
   );
