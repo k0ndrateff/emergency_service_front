@@ -22,18 +22,6 @@ export const useGetOneIncident = (id: number | undefined) => useQuery({
 
 export const useUpdateIncident = (id: number | undefined) => useMutation({
   mutationFn: (dto: Partial<Incident>) => incidentsApi.update(id, dto),
-  onMutate: async (dto: Partial<Incident>) => {
-    await queryClient.cancelQueries({queryKey: queryKeys.incidents});
-
-    const previousIncidentData = queryClient.getQueryData(queryKeys.incidentsOne(id));
-
-    queryClient.setQueryData(queryKeys.incidentsOne(id), (old: Incident) => ({...old, ...dto}));
-
-    return {previousIncidentData};
-  },
-  onError: (_err, _newData, context) => {
-    queryClient.setQueryData(queryKeys.incidentsOne(id), context?.previousIncidentData);
-  },
   onSettled: () => {
     queryClient.invalidateQueries({queryKey: queryKeys.incidents});
   },

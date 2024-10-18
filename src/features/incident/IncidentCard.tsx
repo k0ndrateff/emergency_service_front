@@ -1,5 +1,5 @@
 import {getRouteApi} from "@tanstack/react-router";
-import {useGetOneIncident} from "@/api/incidents/incidentsQueries.ts";
+import {useGetOneIncident, useUpdateIncident} from "@/api/incidents/incidentsQueries.ts";
 import {LabeledInput} from "@/lib/components/LabeledInput.tsx";
 import {useEffect, useState} from "react";
 
@@ -11,16 +11,18 @@ const IncidentCard = () => {
   const [description, setDescription] = useState("");
 
   const { data: incident, isLoading } = useGetOneIncident(search.incident);
-  // const { mutate } = useUpdateIncident(search.incident);
+  const { mutate } = useUpdateIncident(search.incident);
 
   useEffect(() => {
     if (incident)
       setDescription(incident.description);
-  }, [incident]);
+  }, [search.incident]);
 
-  // useEffect(() => {
-  //   mutate({ description });
-  // }, [description, mutate]);
+  const handleChangeDescription = (value: string) => {
+    setDescription(value);
+
+    mutate({ description });
+  }
 
   if (isLoading) {
     return null;
@@ -32,7 +34,7 @@ const IncidentCard = () => {
 
   return (
     <div className="flex flex-col gap-4">
-      <LabeledInput label="Описание" value={description} onChange={setDescription} />
+      <LabeledInput label="Описание" value={description} onChange={handleChangeDescription} />
     </div>
   );
 };
