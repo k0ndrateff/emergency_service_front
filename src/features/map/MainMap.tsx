@@ -2,6 +2,13 @@ import mapboxgl, {Map as MapboxMap, Marker} from "mapbox-gl";
 import { useEffect, useRef } from "react";
 import "mapbox-gl/dist/mapbox-gl.css";
 import {useGetCrewsGeoCoded} from "@/api/crew/crewQueries.ts";
+import {createRoot} from "react-dom/client";
+
+const CustomMarker = ({ name }: { name: string }) => (
+  <div style={{ backgroundColor: "red", padding: "5px", borderRadius: "50%" }}>
+    {name}
+  </div>
+);
 
 const MainMap = () => {
   const mapRef = useRef<MapboxMap>();
@@ -25,11 +32,14 @@ const MainMap = () => {
 
   useEffect(() => {
     if (crewsGeoCoded && mapRef.current) {
-      crewsGeoCoded.map(crew => {
-        new Marker({
-          color: "#FF0000",
-          scale: 0.8,
-        })
+      crewsGeoCoded.forEach(crew => {
+        const markerNode = document.createElement("div");
+
+        // Use createRoot instead of ReactDOM.render
+        const root = createRoot(markerNode);
+        root.render(<CustomMarker name={crew.officer_phone} />);
+
+        new Marker(markerNode)
           .setLngLat([Number(crew.base_geo?.lon), Number(crew.base_geo?.lat)])
           .addTo(mapRef.current as MapboxMap);
       });

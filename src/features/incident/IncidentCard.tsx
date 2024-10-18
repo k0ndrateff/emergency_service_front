@@ -16,11 +16,9 @@ const IncidentCard = () => {
   useEffect(() => {
     if (incident)
       setDescription(incident.description);
-  }, [search.incident]);
+  }, [incident]);
 
-  const handleChangeDescription = (value: string) => {
-    setDescription(value);
-
+  const handleUpdateDescription = () => {
     mutate({ description });
   }
 
@@ -34,7 +32,7 @@ const IncidentCard = () => {
 
   return (
     <div className="flex flex-col gap-4">
-      <LabeledInput label="Описание" value={description} onChange={handleChangeDescription} />
+      <LabeledInput label="Описание" value={description} onBlur={handleUpdateDescription} onChange={setDescription} />
     </div>
   );
 };
