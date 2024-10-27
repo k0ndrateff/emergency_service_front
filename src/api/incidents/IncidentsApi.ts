@@ -52,6 +52,17 @@ class IncidentsApi {
       throw new Error(`Failed to update incident ${id}: ${error}`);
     }
   };
+
+  createEmpty = async (operatorId: number): Promise<Incident> => {
+    try {
+      const response = await baseApi.post(apiRoutes.incident, {operatorId});
+
+      return response.data;
+    }
+    catch(error) {
+      throw new Error(`Failed to create empty incident: ${error}`);
+    }
+  };
 }
 
 export const incidentsApi = new IncidentsApi();

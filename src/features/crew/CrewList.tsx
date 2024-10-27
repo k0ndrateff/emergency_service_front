@@ -13,7 +13,7 @@ const CrewList = () => {
       )}
 
       {crews?.map((crew) => (
-        <CrewBlock crew={crew} />
+        <CrewBlock key={crew.id} crew={crew} />
       ))}
     </div>
   );

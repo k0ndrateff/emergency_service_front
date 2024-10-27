@@ -31,7 +31,7 @@ const IncidentBlock = (props: Props) => {
       " active:bg-slate-900/80 cursor-pointer", { "bg-slate-900/80": search.incident === incident.id })} onClick={handleClick}>
       <div className={`w-0.5 h-full min-h-4 rounded-sm ${priorityColor} shrink-0`} />
 
-      <div className="w-full flex items-baseline justify-between">
+      <div className="w-full flex items-baseline justify-between gap-1.5">
         <span className="truncate">{incident.description}</span>
 
         <span className="text-slate-400 text-xs">{startDate}</span>

@@ -26,3 +26,14 @@ export const useUpdateIncident = (id: number | undefined) => useMutation({
     queryClient.invalidateQueries({queryKey: queryKeys.incidents});
   },
 });
+
+export const useCreateEmptyIncident = (operatorId: number) => useMutation({
+  mutationFn: () => incidentsApi.createEmpty(operatorId),
+  onSettled: (incident) => {
+    if (incident) {
+      queryClient.setQueryData<Incident>(queryKeys.incidentsOne(incident.id), incident);
+
+      queryClient.invalidateQueries({ queryKey: queryKeys.incidents });
+    }
+  },
+});
