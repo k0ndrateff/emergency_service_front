@@ -3,6 +3,7 @@ import {MainMap} from "@/features/map/MainMap.tsx";
 import {Header} from "@/features/dashboard/Header.tsx";
 import {IncidentList} from "@/features/incident/IncidentList.tsx";
 import {CardAndCrewsPanel} from "@/features/incident/CardAndCrewsPanel.tsx";
+import {AddressFinder} from "@/features/map/AddressFinder.tsx";
 
 interface SearchParams {
   incident?: number;
@@ -21,6 +22,7 @@ function Dashboard() {
       <Header />
 
       <MainMap />
+      <AddressFinder />
 
       <IncidentList />
       <CardAndCrewsPanel />
