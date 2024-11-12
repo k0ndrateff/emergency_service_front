@@ -1,8 +1,10 @@
 import {AddressSuggestions, DaDataAddress, DaDataSuggestion} from 'react-dadata';
 import 'react-dadata/dist/react-dadata.css';
-import {useEffect, useState} from "react";
+import {useEffect, useRef, useState} from "react";
 
 const AddressFinder = () => {
+  const inputRef = useRef<AddressSuggestions>(null);
+
   const [value, setValue] = useState<DaDataSuggestion<DaDataAddress>>();
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
@@ -12,6 +14,10 @@ const AddressFinder = () => {
         e.preventDefault();
 
         setIsOpen(prev => !prev);
+
+        setTimeout(() => {
+          inputRef.current?.focus();
+        }, 50);
       }
     };
 
@@ -23,7 +29,7 @@ const AddressFinder = () => {
   if (!isOpen) return null;
 
   return (
-    <AddressSuggestions containerClassName="fixed top-20 left-[calc(50vw-150px)] w-[300px] text-slate-900 flex flex-col-reverse" token="36c47f1b48ba4024e1981e9c1d1303163a2a99c5" value={value} onChange={setValue} />
+    <AddressSuggestions ref={inputRef} containerClassName="fixed top-20 left-[calc(50vw-150px)] w-[300px]" token="36c47f1b48ba4024e1981e9c1d1303163a2a99c5" value={value} onChange={setValue} filterLocations={[{ region: "Москва" }]} filterRestrictValue />
   );
 };
 

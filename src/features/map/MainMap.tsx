@@ -4,8 +4,12 @@ import "mapbox-gl/dist/mapbox-gl.css";
 import {useGetCrewsGeoCoded} from "@/api/crew/crewQueries.ts";
 import {createRoot} from "react-dom/client";
 import {HospitalMarker} from "@/features/map/HospitalMarker.tsx";
+import {useMapContext} from "@/lib/context/MapContext.ts";
+import {CrewMarker} from "@/features/map/CrewMarker.tsx";
 
 const MainMap = () => {
+  const { setMapRef } = useMapContext();
+
   const mapRef = useRef<MapboxMap>();
   const mapContainerRef = useRef<HTMLDivElement>(null);
 
@@ -21,26 +25,39 @@ const MainMap = () => {
       style: "mapbox://styles/mapbox/navigation-night-v1",
     });
 
+    setMapRef(mapRef.current);
+
     return () => {
       mapRef.current?.remove();
+      setMapRef(null);
     };
-  }, []);
+  }, [setMapRef]);
 
   useEffect(() => {
     if (crewsGeoCoded && mapRef.current) {
       crewsGeoCoded.forEach(crew => {
-        const markerNode = document.createElement("div");
+        const baseMarkerNode = document.createElement("div");
 
-        // Use createRoot instead of ReactDOM.render
-        const root = createRoot(markerNode);
-        root.render(<HospitalMarker address={crew.base_address} />);
+        const baseRoot = createRoot(baseMarkerNode);
+        baseRoot.render(<HospitalMarker address={crew.base_address} />);
 
-        new Marker(markerNode)
+        new Marker(baseMarkerNode)
           .setLngLat([Number(crew.base_geo?.lon), Number(crew.base_geo?.lat)])
           .addTo(mapRef.current as MapboxMap);
+
+        if (crew.current_lat && crew.current_lon) {
+          const crewMarkerNode = document.createElement("div");
+
+          const crewRoot = createRoot(crewMarkerNode);
+          crewRoot.render(<CrewMarker number={crew.id} />);
+
+          new Marker(crewMarkerNode)
+            .setLngLat([Number(crew.current_lon), Number(crew.current_lat)])
+            .addTo(mapRef.current as MapboxMap);
+        }
       });
     }
-  }, [crewsGeoCoded]);
+  }, [crewsGeoCoded, mapRef]);
 
   return (
     <div

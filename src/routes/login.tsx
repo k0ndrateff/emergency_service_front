@@ -41,7 +41,7 @@ function Login() {
           <section className="flex flex-col gap-2">
             <h2 className="font-bold small-caps">{createOperatorTitle}</h2>
 
-            <CreateOperatorForm/>
+            <CreateOperatorForm />
           </section>
         </div>
       </div>

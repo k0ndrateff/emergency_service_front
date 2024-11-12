@@ -46,3 +46,15 @@
     font-variant-caps: small-caps;
   }
 }
+
+.react-dadata__input {
+  @apply bg-background text-foreground border-[0.5px] border-slate-400 shadow-2xl !important;
+}
+
+.react-dadata__suggestions {
+  @apply bg-background text-foreground !important;
+}
+
+.react-dadata--highlighted {
+  @apply bg-orange-300 text-background !important;
+}

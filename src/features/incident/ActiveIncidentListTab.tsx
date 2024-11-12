@@ -1,14 +1,14 @@
 import {useCreateEmptyIncident, useGetActiveIncidents} from "@/api/incidents/incidentsQueries.ts";
 import {IncidentBlock} from "@/features/incident/IncidentBlock.tsx";
 import {Button} from "@/lib/components/ui/button.tsx";
-import {useAuth} from "@/lib/hooks/useAuth.ts";
 import {getRouteApi} from "@tanstack/react-router";
 import {BlockSkeleton} from "@/lib/components/BlockSkeleton.tsx";
+import {useAuthContext} from "@/lib/context/AuthContext.ts";
 
 const route = getRouteApi('/_authenticated/dashboard');
 
 const ActiveIncidentListTab = () => {
-  const { userId } = useAuth();
+  const { userId } = useAuthContext();
   const navigate = route.useNavigate();
 
   const { data: incidents, isLoading: areIncidentsLoading } = useGetActiveIncidents();
