@@ -14,6 +14,11 @@ export const useGetPreviousIncidents = () => useQuery({
   queryFn: incidentsApi.getPrevious
 });
 
+export const useGetIncidentsGeoCoded = () => useQuery({
+  queryKey: queryKeys.incidentsGeoCoded(),
+  queryFn: incidentsApi.getActiveGeoCoded
+});
+
 export const useGetOneIncident = (id: number | undefined) => useQuery({
   queryKey: queryKeys.incidentsOne(id),
   queryFn: () => incidentsApi.getOne(id),

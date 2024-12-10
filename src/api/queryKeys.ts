@@ -13,6 +13,9 @@ const keys = {
   incidentsPrevious() {
     return [...this.incidents, 'previous'];
   },
+  incidentsGeoCoded() {
+    return [...this.incidents, 'active', 'geo'];
+  },
   incidentsOne(id: number | undefined) {
     return [...this.incidents, 'one', id];
   },

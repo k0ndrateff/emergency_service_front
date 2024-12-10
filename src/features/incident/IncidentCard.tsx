@@ -7,6 +7,7 @@ import {Incident} from "@/lib/models/Incident.ts";
 import {IncidentPrioritySelect} from "@/features/incident/IncidentPrioritySelect.tsx";
 import {DangerClassSelect} from "@/features/incident/DangerClassSelect.tsx";
 import {IncidentStatusSelect} from "@/features/incident/IncidentStatusSelect.tsx";
+import {LabeledTextarea} from "@/lib/components/LabeledTextarea.tsx";
 
 const route = getRouteApi('/_authenticated/dashboard');
 
@@ -17,6 +18,7 @@ const IncidentCard = () => {
   const [priority, setPriority] = useState(0);
   const [dangerClass, setDangerClass] = useState(0);
   const [status, setStatus] = useState(0);
+  const [address, setAddress] = useState("");
 
   const { data: incident, isLoading } = useGetOneIncident(search.incident);
   const { mutate } = useUpdateIncident(search.incident);
@@ -27,6 +29,7 @@ const IncidentCard = () => {
       setPriority(incident.priority);
       setDangerClass(incident.danger_class);
       setStatus(incident.status);
+      setAddress(incident.address);
     }
   }, [incident]);
 
@@ -36,6 +39,7 @@ const IncidentCard = () => {
       priority: priority !== incident?.priority ? priority : undefined,
       danger_class: dangerClass !== incident?.danger_class ? dangerClass : undefined,
       status: status !== incident?.status ? status : undefined,
+      address: address !== "" ? address : undefined,
     };
 
     mutate(dto);
@@ -71,6 +75,8 @@ const IncidentCard = () => {
         <DangerClassSelect value={dangerClass} onBlur={handleUpdate} onChange={setDangerClass} />
 
         <IncidentStatusSelect value={status} onBlur={handleUpdate} onChange={setStatus} />
+
+        <LabeledTextarea label="Адрес" value={address} onBlur={handleUpdate} onChange={setAddress}/>
       </div>
 
       {!incident.end_time && (

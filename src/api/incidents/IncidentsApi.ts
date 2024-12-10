@@ -1,6 +1,7 @@
 import {baseApi} from "@/api/BaseApi.ts";
 import {apiRoutes} from "@/api/ApiRoutes.ts";
 import {Incident} from "@/lib/models/Incident.ts";
+import {IncidentGeoCoded} from "@/lib/models/IncidentGeoCoded.ts";
 
 class IncidentsApi {
   getActive = async (): Promise<Incident[]> => {
@@ -22,6 +23,17 @@ class IncidentsApi {
     }
     catch(error) {
       throw new Error(`Failed to get previous incidents: ${error}`);
+    }
+  };
+
+  getActiveGeoCoded = async (): Promise<IncidentGeoCoded[]> => {
+    try {
+      const result = await baseApi.get(apiRoutes.incidentsGeoCoded);
+
+      return result.data;
+    }
+    catch(error) {
+      throw new Error(`Failed to get incidents geo coded: ${error}`);
     }
   };
 

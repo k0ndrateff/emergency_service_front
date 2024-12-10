@@ -6,6 +6,8 @@ import {createRoot} from "react-dom/client";
 import {HospitalMarker} from "@/features/map/HospitalMarker.tsx";
 import {useMapContext} from "@/lib/context/MapContext.ts";
 import {CrewMarker} from "@/features/map/CrewMarker.tsx";
+import {useGetIncidentsGeoCoded} from "@/api/incidents/incidentsQueries.ts";
+import {IncidentMarker} from "@/features/map/IncidentMarker.tsx";
 
 const MainMap = () => {
   const { setMapRef } = useMapContext();
@@ -14,6 +16,7 @@ const MainMap = () => {
   const mapContainerRef = useRef<HTMLDivElement>(null);
 
   const { data: crewsGeoCoded } = useGetCrewsGeoCoded();
+  const { data: incidentsGeoCoded } = useGetIncidentsGeoCoded();
 
   useEffect(() => {
     mapboxgl.accessToken = "pk.eyJ1IjoiazBuZHJhdGVmZiIsImEiOiJja2sycjJ2emkxM3MzMnZxc253ZGtveWI2In0.vV9nG1Cqb7OruzUmHKY0LQ";
@@ -58,6 +61,23 @@ const MainMap = () => {
       });
     }
   }, [crewsGeoCoded, mapRef]);
+
+  useEffect(() => {
+    if (incidentsGeoCoded && mapRef.current) {
+      incidentsGeoCoded.forEach(incident => {
+        if (incident.address_geo) {
+          const incidentMarkerNode = document.createElement("div");
+
+          const incidentRoot = createRoot(incidentMarkerNode);
+          incidentRoot.render(<IncidentMarker incident={incident} />);
+
+          new Marker(incidentMarkerNode)
+            .setLngLat([Number(incident.address_geo.lon), Number(incident.address_geo.lat)])
+            .addTo(mapRef.current as MapboxMap);
+        }
+      });
+    }
+  }, [incidentsGeoCoded, mapRef]);
 
   return (
     <div
