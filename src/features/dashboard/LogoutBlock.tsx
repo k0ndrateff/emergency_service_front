@@ -1,6 +1,7 @@
 import {useAuthContext} from "@/lib/context/AuthContext.ts";
 import {useGetOneOperator} from "@/api/operators/operatorsQueries.ts";
 import {useNavigate} from "@tanstack/react-router";
+import {flushSync} from "react-dom";
 
 const LogoutBlock = () => {
   const { userId, logout } = useAuthContext();
@@ -11,9 +12,11 @@ const LogoutBlock = () => {
   const navigate = useNavigate();
 
   const handleClick = () => {
-    logout();
+    flushSync(() => {
+      logout();
 
-    navigate({ to: '/login' });
+      navigate({ to: '/login' });
+    });
   };
 
   const { data: operator } = useGetOneOperator(userId);
