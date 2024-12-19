@@ -1,25 +1,17 @@
-import mapboxgl, {Map as MapboxMap, Marker} from "mapbox-gl";
+import mapboxgl, {Map as MapboxMap} from "mapbox-gl";
 import { useEffect, useRef } from "react";
 import "mapbox-gl/dist/mapbox-gl.css";
-import {useGetCrewsGeoCoded} from "@/api/crew/crewQueries.ts";
-import {createRoot} from "react-dom/client";
-import {HospitalMarker} from "@/features/map/HospitalMarker.tsx";
 import {useMapContext} from "@/lib/context/MapContext.ts";
-import {CrewMarker} from "@/features/map/CrewMarker.tsx";
-import {useGetIncidentsGeoCoded} from "@/api/incidents/incidentsQueries.ts";
-import {IncidentMarker} from "@/features/map/IncidentMarker.tsx";
+import {useMapMarkers} from "@/lib/hooks/useMapMarkers.tsx";
 
 const MainMap = () => {
   const { setMapRef } = useMapContext();
 
-  const mapRef = useRef<MapboxMap>();
+  const mapRef = useRef<MapboxMap>(null);
   const mapContainerRef = useRef<HTMLDivElement>(null);
 
-  const { data: crewsGeoCoded } = useGetCrewsGeoCoded();
-  const { data: incidentsGeoCoded } = useGetIncidentsGeoCoded();
-
   useEffect(() => {
-    mapboxgl.accessToken = "pk.eyJ1IjoiazBuZHJhdGVmZiIsImEiOiJja2sycjJ2emkxM3MzMnZxc253ZGtveWI2In0.vV9nG1Cqb7OruzUmHKY0LQ";
+    mapboxgl.accessToken = import.meta.env.VITE_MAPBOX_TOKEN;
     mapRef.current = new mapboxgl.Map({
       container: mapContainerRef.current as HTMLDivElement,
       language: "ru-RU",
@@ -36,48 +28,7 @@ const MainMap = () => {
     };
   }, [setMapRef]);
 
-  useEffect(() => {
-    if (crewsGeoCoded && mapRef.current) {
-      crewsGeoCoded.forEach(crew => {
-        const baseMarkerNode = document.createElement("div");
-
-        const baseRoot = createRoot(baseMarkerNode);
-        baseRoot.render(<HospitalMarker address={crew.base_address} />);
-
-        new Marker(baseMarkerNode)
-          .setLngLat([Number(crew.base_geo?.lon), Number(crew.base_geo?.lat)])
-          .addTo(mapRef.current as MapboxMap);
-
-        if (crew.current_lat && crew.current_lon) {
-          const crewMarkerNode = document.createElement("div");
-
-          const crewRoot = createRoot(crewMarkerNode);
-          crewRoot.render(<CrewMarker number={crew.id} />);
-
-          new Marker(crewMarkerNode)
-            .setLngLat([Number(crew.current_lon), Number(crew.current_lat)])
-            .addTo(mapRef.current as MapboxMap);
-        }
-      });
-    }
-  }, [crewsGeoCoded, mapRef]);
-
-  useEffect(() => {
-    if (incidentsGeoCoded && mapRef.current) {
-      incidentsGeoCoded.forEach(incident => {
-        if (incident.address_geo) {
-          const incidentMarkerNode = document.createElement("div");
-
-          const incidentRoot = createRoot(incidentMarkerNode);
-          incidentRoot.render(<IncidentMarker incident={incident} />);
-
-          new Marker(incidentMarkerNode)
-            .setLngLat([Number(incident.address_geo.lon), Number(incident.address_geo.lat)])
-            .addTo(mapRef.current as MapboxMap);
-        }
-      });
-    }
-  }, [incidentsGeoCoded, mapRef]);
+  useMapMarkers(mapRef);
 
   return (
     <div

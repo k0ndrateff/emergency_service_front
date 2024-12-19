@@ -2,22 +2,22 @@ import axios, {AxiosRequestConfig, AxiosResponse} from "axios";
 
 class BaseApi {
   private _axios = axios.create({
-    baseURL: "http://localhost:3001",
+    baseURL: import.meta.env.VITE_BASE_API_URL,
   });
 
   get = async (url: string, config?: AxiosRequestConfig): Promise<AxiosResponse> => {
     return this._axios.get(url, config);
   };
 
-  post = async (url: string, data?: any, config?: AxiosRequestConfig): Promise<AxiosResponse> => {
+  post = async (url: string, data?: unknown, config?: AxiosRequestConfig): Promise<AxiosResponse> => {
     return this._axios.post(url, data, config);
   };
 
-  put = async (url: string, data?: any, config?: AxiosRequestConfig): Promise<AxiosResponse> => {
+  put = async (url: string, data?: unknown, config?: AxiosRequestConfig): Promise<AxiosResponse> => {
     return this._axios.put(url, data, config);
   };
 
-  patch = async (url: string, data?: any, config?: AxiosRequestConfig): Promise<AxiosResponse> => {
+  patch = async (url: string, data?: unknown, config?: AxiosRequestConfig): Promise<AxiosResponse> => {
     return this._axios.patch(url, data, config);
   };
 
