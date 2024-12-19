@@ -6,7 +6,10 @@ export const Route = createRootRouteWithContext<AuthContextInterface>()({
   component: () => (
     <div className="bg-background w-full min-h-dvh">
       <Outlet />
-      <TanStackRouterDevtools />
+
+      {import.meta.env.VITE_DEBUG === "true" && (
+        <TanStackRouterDevtools />
+      )}
     </div>
   ),
 });

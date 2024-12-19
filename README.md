@@ -1,50 +1,66 @@
-# React + TypeScript + Vite
+# Панель оператора системы-112 | Фронтенд
+Emergency Service Dashboard | Frontend ([EN](./README_EN.md))
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+---
 
-Currently, two official plugins are available:
+**Система-112** — единая служба оказания экстренной помощи в чрезвычайных ситуациях. Обратиться в эту службу можно
+круглосуточно и бесплатно с любого телефона, зачастую даже при отсутствии сигнала сети. На звонок отвечает оператор,
+уточняющий причину вызова и координирующий дальнейшую помощь. Система работает во многих странах СНГ и Европы.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+В этом репозитории — фронтенд панели оператора службы спасения, созданной в качестве учебного проекта. На данный момент
+реализована главный экран с картой вызовов, боковые панели списка вызовов и карточки отдельного вызова, а также 
+поисковик адресов.
 
-## Expanding the ESLint configuration
+![promo.png](promo.png)
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+Бэкенд — в отдельном репозитории: [emergency_service_back](https://github.com/k0ndrateff/emergency_service_back).
 
-- Configure the top-level `parserOptions` property like this:
+## Реализованные фичи
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+- **Список происшествий с разделением на активные и прошедшие**;
+- **Карточка вызова с оптимистичным обновлением**;
+- **Поисковик адресов**;
+- **Визуальное представление информации на карте**.
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+## Стек
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
+- **Тулинг**: [Vite](https://vite.dev/);
+- **Роутинг**: [TanStack Router](https://tanstack.com/router/latest);
+- **Компоненты**: [Shadcn/ui](https://ui.shadcn.com/);
+- **Карты**: [Mapbox](https://www.mapbox.com/);
+- **Геокодирование**: [DaData](https://dadata.ru/).
 
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
-```
+## Установка
+
+1. Склонируйте репозиторий:
+   ```bash
+   git clone https://github.com/k0ndrateff/emergency_service_front.git
+   cd emergency_service_front
+   ```
+
+2. Установите зависимости:
+   ```bash
+   npm install
+   ```
+
+3. Установите переменные окружения:
+    - Настройте подключение к бэкенду;
+    - Получите токен в сервисе Mapbox и вставьте его в переменную `VITE_MAPBOX_TOKEN`.
+
+4. Запустите сервер:
+   ```bash
+   npm run dev
+   ```
+
+## Замечания и предложения
+
+Замечания и предложения приветствуются в разделе `Issues`!
+
+## Ссылки и референсы
+
+- Часть идей при проектировании системы была заимствована из существующей системы-112: [PDF](https://protei.ru/sites/default/files/2024-03/RP_S_112_2024.pdf)
+
+## Dura lex sed lex
+
+Проект создан в учебных целях и не предназначен для реального использования. Все данные вымышлены и не имеют
+отношения к реальности.
